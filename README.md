@@ -21,4 +21,5 @@ function prompt {
 }
 ```
 and your prompt will be:
+
 ![](./assets/screenshot.png)
