@@ -1,0 +1,11 @@
+[package]
+name = "shortpath"
+version = "0.1.0"
+authors = ["museun <museun@outlook.com>"]
+edition = "2018"
+
+[dependencies]
+
+[profile.release]
+lto = true
+panic = "abort"
