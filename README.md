@@ -13,15 +13,14 @@ Positional arguments:
 Optional arguments:
   -h, --help        print help message
   -g, --git-branch  display current git branch
+  -u, --unique      attempt to make the components unique
   -j, --json bool   output as json (default: true)
 ```
 
 ### example:
-**note** (a blank newline is added for easier parsing)
 >shortpath -j false "c:/some long/path with/multiple/directories/here"
 ```
 c:/s/p/m/d/here
-
 ```
 
 >shortpath "c:/some long/path with/multiple/directories/here"
@@ -35,12 +34,23 @@ c:/s/p/m/d/here
 {"branch":"dev","path":"c:/s/p/m/d/here"}
 ```
 
-**note** (a blank newline is added for easier parsing)
 >shortpath "c:/some long/path with/multiple/directories/here" -g -j false
 ```json
 c:/s/p/m/d/here
 dev
+```
 
+### this will 'uniquify' entries where there are multiple directories starting with the same character
+
+>shortpath "c:/some long/path with/sibling/directories/here" -g -u
+```json
+{"branch":"master","path":"C:/s/p/sibling/d/here"}
+```
+
+>shortpath "c:/some long/path with/sibiling/directories/here" -j false -g -u
+```
+C:/s/p/sibling/d/here
+master
 ```
 
 this is useful for shortening paths for a shell prompt
