@@ -163,7 +163,7 @@ dependencies = [
 
 [[package]]
 name = "shortpath"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "gumdrop 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "lexical_bool 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
