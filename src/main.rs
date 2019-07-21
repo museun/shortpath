@@ -71,6 +71,12 @@ fn simple_reduce(input: &mut String, path: &Path) {
 
     let len = parts.len();
 
+    if len == 1 {
+        input.push_str(&parts[0]);
+        input.push(std::path::MAIN_SEPARATOR);
+        return;
+    }
+
     let mut iter = parts.iter();
     input.push_str(&iter.next().unwrap());
     input.push(std::path::MAIN_SEPARATOR);
@@ -93,14 +99,27 @@ fn travese_reduce(input: &mut String, path: &Path) {
     let mut buf = vec![];
     use std::path::Component::*;
 
+    if path.parent().is_none() {
+        input.push_str(&path.to_string_lossy());
+        input.push(std::path::MAIN_SEPARATOR);
+        return;
+    }
+
     // initial
     buf.push(path.file_stem().unwrap().to_string_lossy().to_string());
 
-    fn unique_other(path: &Path, buf: &mut Vec<String>) {
-        // panics if everything isn't right
-        fn head(s: impl AsRef<str>) -> char {
-            s.as_ref().chars().next().unwrap()
+    fn head(s: impl AsRef<str>) -> char {
+        s.as_ref().chars().next().unwrap()
+    }
+
+    let mut path = path;
+    while let Some(parent) = path.parent() {
+        if let Some(comp) = parent.components().next() {
+            if let RootDir = comp {
+                break;
+            }
         }
+        path = parent;
 
         let (base, parent) = match path
             .file_name()
@@ -131,17 +150,6 @@ fn travese_reduce(input: &mut String, path: &Path) {
         } else {
             buf.push(base.to_string())
         }
-    }
-
-    let mut path = path;
-    while let Some(parent) = path.parent() {
-        if let Some(comp) = parent.components().next() {
-            if let RootDir = comp {
-                break;
-            }
-        }
-        path = parent;
-        unique_other(&parent, &mut buf)
     }
 
     let mut pb = path.to_path_buf();
