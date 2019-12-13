@@ -36,7 +36,7 @@ pub fn simple_reduce(path: impl AsRef<Path>) -> Result<String, Error> {
 
     if len > 2 {
         for part in iter.take(parts.len() - 2) {
-            for ch in part.chars().next() {
+            for ch in part.chars() {
                 input.push(ch);
             }
             input.push('/');
